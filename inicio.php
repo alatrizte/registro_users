@@ -12,7 +12,7 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,8 @@
     </script>
     <div id="user"></div>
     <h1>Bienvenido</h1>
-    <p>Aplicación para crear un registro de usuarios con sesiones donde en el registro se pide un e-mail y se comprueba su validez.</p>
+    <p>Aquí irá la página de inicio de tu aplicación.</p> 
+    <p>Si has llegado hasta aquí es que el usuario se ha registrado correctamente.</p>
 </body>
 
 </html>
