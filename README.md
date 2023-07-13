@@ -1,4 +1,4 @@
-### BREVE INTRODUCIÓN.
+### BREVE INTRODUCCIÓN.
 
 Pequeña aplicación para introducir en tus proyectos donde sea necesaria un acceso de usuarios registrados.  
 Almacena en una base de datos *Mysql* en el servidor el nombre, el e-mail y la contraseña hasheada. Pedirá al usuario
