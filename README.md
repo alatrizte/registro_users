@@ -9,22 +9,21 @@ Ejecutar en una terminal:
 sudo mysql < create_db_and_user.sql
 ~~~
 
-Cambiar en el archivo src > clases > .env.php  
-Los nombres de usuario y de password usados en la creación de la base de datos.
-
-En el archivo src > send_email.php  
-Configurar los datos para el correo saliente
+Crear un archivo en la ruta src/users/.env.php para crear las
+variables de entorno:  
 
 ~~~
-$mail->isSMTP();                                            //Send using SMTP
-$mail->Host       = 'smtp.delDominio.com';                  //Set the SMTP server to send through
-$mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-$mail->Username   = 'correo@dominio.com';                   //SMTP username
-$mail->Password   = 'passCorreo';                           //SMTP password
-~~~
+<?php 
 
-También introducir los datos que le aparecerán en el correo del nuevo usuario.  
+return [
+    "DB_NAME" => "registros",               // igual que la del archivo 'create_db_and_user.sql'
+    "DB_USER" => "vinz",                    // 
+    "DB_PASSWORD" => "clortho_1984",        //
+    "MAIL_HOST" => 'smtp.correo.com',       // dirección smtp del correo
+    "MAIL_USER" => 'nombre@correo.com',     // dirección de correo saliente
+    "MAIL_PASSWORD" => 'contraseña',        // contraseña del correo
+    "MAIL_TITLE" => "Asunto del correo"     // Asunto del correo a enviar las claves
+];
 
-~~~
-$mail->setFrom('correo@dominio.com', 'Registro de Usuarios'); // Correo saliente, Título del correo.
+?>
 ~~~
