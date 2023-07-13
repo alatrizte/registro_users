@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Usuarios</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script>
+        fetch('../src/users/check_session.php')
+            .then(respuesta => respuesta.json())
+            .then(data => {
+                if (Object.values(data)[0] !== "no_sesion") {
+                    window.location.href = '../index.html'
+                    //console.log(Object.values(data)[0]);
+                }
+            })    
+    </script>
+</head>
+
+
+<body>
+        
+    <div class="container">
+        <div class="logo">
+            <div class="icon"></div>
+            <div class="title">TU LOGO AQUÍ</div>
+        </div>
+        <form autocomplete="off" id="loginForm">
+            <div class="icon_user"></div>
+            <h3>Identifícate</h3>
+            <div class="div_mail"><label for="user">E-mail</label><input class="inputForm" type="email" name="user" id="log_user"></div>
+            <div class="div_pass"><label for="password">Contraseña</label><input class="inputForm" type="password" name="password"
+                    id="log_pass"></div>
+            <div id="alert_log" class="alert"></div>
+            <p class="enlace">¿Olvidaste tu contraseña?</p>
+            <div><input type="submit" value="Entrar" id="entrar"></div>
+            <p id="newUser" class="enlace">Si aún no eres usuario<b> regístrate aquí.</b></p>
+        </form>
+
+
+        <form autocomplete="off" id="regForm">
+            <div class="icon_newUser"></div>
+            <h3>Crear Cuenta</h3>
+            <div class="div_user"><label for="name">Nombre de usuario</label><input class="inputForm" type="text" name="name" id="name">
+            </div>
+            <div class="div_mail"><label for="user">E-Mail</label><input class="inputForm" type="email" name="user" id="reg_user"
+                    autocomplete="off"><span id="mail" class="alert" style="display: none;"></span></div>
+            <div class="div_pass"><label for="password">Contraseña</label><input class="inputForm" type="password" name="password"
+                    id="reg_pass"></div>
+            <div class="div_pass"><label for="pass_conf">Repite la contraseña</label><input class="inputForm" type="password"
+                    name="pass_conf" id="pass_conf">
+            </div>
+            <div id="alert_reg" class="alert"></div>
+            <div><input type="submit" value="Regístrate" id="registro"></div>
+            <p id="login" class="enlace">Si ya eres usuario <b>accede desde aquí.</b></p>
+        </form>
+
+
+
+
+        <form id="check">
+            <h3>Introduce la clave</h3>
+            <p>Revisa tu correo e introduce la clave que se envió.</p>
+            <div class="div_key"><label for="clave">clave</label><input type="text" name="clave" id="clave" class="inputForm"></div>
+            <div>
+                <input type="submit" value="Aceptar" id="envio">
+                <input type="button" value="Cancelar" id="cancel">
+            </div>
+        </form>
+    </div>
+</body>
+
+<script defer src="./scripts/acceso.js"></script>
+
+</html>
