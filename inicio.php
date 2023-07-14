@@ -40,13 +40,15 @@
             margin-top: 25px;
             padding: 25px;
             padding-bottom: 125px;
-            border: 1px solid black;
+            border: 1px solid #2a6e7d;
         }
 
         h1 {
             font-size: 3em;
             margin-bottom: 50px;
+            color: #2a6e7d;
         }
+
         h1, p {
             text-align: center;
         }

@@ -250,8 +250,10 @@ form>p:hover {
     background-color: var(--secundario_dark);
 }
 
-#check input[type="button"] {
+#check input[type="button"],
+#btns_reg input[type="button"] {
     margin-top: 15px;
+    margin-left:15px;
     background-color: var(--terciario);
 }
 div .div_key {

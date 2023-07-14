@@ -13,6 +13,8 @@ alert_log.style.display = "none";
 
 const mail = document.getElementById("mail");
 
+const forget = document.getElementById("forget");
+
 //regForm.style.display = "none";
 
 // Función que muestra el formulario de identificarse
@@ -25,8 +27,7 @@ const logueo = (e) => {
 }
 
 //Función que muestra el formulario de registro
-const newReg = (e) => {
-    e.preventDefault();
+const newReg = () => {
     loginForm.style.transform = "translateY(-550px)";
     loginForm.style.opacity = "0%";
     regForm.style.top = "-64%";
@@ -215,6 +216,85 @@ const registrando = (e) => {
         }
     }
 }
+
+const change_pass = (e) => {
+    e.preventDefault;
+
+    const regFormData = new FormData(regForm);
+
+    vacio = true;
+    regFormData.forEach(item => {
+        if (item == "") {
+            vacio = false;
+        }
+    })
+    if (vacio == false) {
+        for (element of regForm.elements) {
+            element.parentElement.classList.remove("inputAlert"); //aquí hay que poner la clase en estado normal
+            if (element.value == "") {
+                element.parentElement.classList.add("inputAlert"); //aquí hay que poner la clase en estado aviso
+                alert_reg.innerHTML = "Todos los campos son obligatorios.";
+                alert_reg.style.display = "block";
+            }
+        };
+    } else {
+        if (check_pass_valid(regFormData)) {
+            alert_reg.style.display = "none";
+            let email = regFormData.get('user');
+            mail.innerHTML = "";
+            
+            enviarRegistro(regFormData);
+            regForm.reset();
+            //check_newClave();
+            
+        }
+    }
+}
+
+
+// Función para cambiar el password del usuario registrado.
+// utiliza el mismo formulario de registro pero enviará a la base de datos
+// el nuevo password que como paso de confirmación se envía una clave 
+// al correo del usuario. Sólo en el momento de introducir esa clave se 
+// cambiará el password del usuario.
+const forget_user = (itName, itMail) => {ç
+    // Cambia el título
+    document.querySelector("#regForm h3").textContent = "Nueva Contraseña";
+    // Elimina el boton de registro.
+    document.querySelector("#registro").remove();
+    // Introduce en los inputs los valores del nombre y del mail
+    const name = document.getElementById("name");
+    const reg_user = document.getElementById("reg_user");
+    name.value = itName;
+    reg_user.value = itMail;
+    // desactiva los campos para no poder cambiar los valores.
+    name.setAttribute("disabled", true);
+    reg_user.setAttribute("disabled", true);
+    // Elimina el enlace hacia el login.
+    document.getElementById("login").remove();
+    // Crea los botones para aceptar o cancelar los cambios.
+    const btn_cambiar = document.createElement("input");
+    btn_cambiar.setAttribute("type", "submit");
+    btn_cambiar.value = "Cambiar";
+    const btn_back = document.createElement("input");
+    btn_back.setAttribute("type", "button");
+    btn_back.value = "Cancelar";
+    document.getElementById("btns_reg").append(btn_cambiar);
+    document.getElementById("btns_reg").append(btn_back);
+    btn_cambiar.addEventListener("click", change_pass)
+
+}
+
+forget.addEventListener("click", () => {
+    const log_user = document.getElementById("log_user").value;
+    if (log_user === "" ){
+        alert ("Has de introducir tu e-mail");
+    } else {
+        newReg();
+        forget_user("alatrizte", log_user);
+    }
+})
+
 
 const newUser = document.getElementById("newUser");
 newUser.addEventListener("click", newReg);
