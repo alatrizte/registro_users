@@ -217,8 +217,10 @@ const registrando = (e) => {
     }
 }
 
+
 const change_pass = (e) => {
-    e.preventDefault;
+
+    e.preventDefault();
 
     const regFormData = new FormData(regForm);
 
@@ -240,13 +242,20 @@ const change_pass = (e) => {
     } else {
         if (check_pass_valid(regFormData)) {
             alert_reg.style.display = "none";
-            let email = regFormData.get('user');
             mail.innerHTML = "";
-            
-            enviarRegistro(regFormData);
-            regForm.reset();
-            //check_newClave();
-            
+            console.log(regFormData);
+            fetch ('../src/users/change_pass.php',{
+                method: 'POST',
+                body: regFormData
+            })
+                .then (consulta => consulta.text() )
+                .then (respuesta => {
+                    if(respuesta == "ok"){
+                        alert ("La contraseña ha sido cambiada.");
+                        regForm.reset();
+                        location.reload(true);
+                    }
+                }) 
         }
     }
 }
@@ -257,7 +266,7 @@ const change_pass = (e) => {
 // el nuevo password que como paso de confirmación se envía una clave 
 // al correo del usuario. Sólo en el momento de introducir esa clave se 
 // cambiará el password del usuario.
-const forget_user = (itName, itMail) => {ç
+const new_pass = (itName, itMail) => {
     // Cambia el título
     document.querySelector("#regForm h3").textContent = "Nueva Contraseña";
     // Elimina el boton de registro.
@@ -281,17 +290,90 @@ const forget_user = (itName, itMail) => {ç
     btn_back.value = "Cancelar";
     document.getElementById("btns_reg").append(btn_cambiar);
     document.getElementById("btns_reg").append(btn_back);
-    btn_cambiar.addEventListener("click", change_pass)
 
+    // al pulsar el botón 'Cambiar'.
+    btn_cambiar.addEventListener("click", change_pass);
+
+    // Al pulsar el botón 'Cancelar'
+    btn_back.addEventListener("click", () => {
+        location.reload(true);
+    })
 }
 
-forget.addEventListener("click", () => {
+const check_exist = async (log_user) => {
+    const dataToSend = new FormData();
+    dataToSend.append('userMail', log_user);
+    const consulta = await fetch('../src/users/check_mail_exist.php', {
+        method: 'POST',
+        body: dataToSend
+    })
+
+    const respuesta = await consulta.text();
+
+    return respuesta;
+}
+
+const send_key = async(log_user, name) => {
+    let data = new FormData();
+    data.append("name", name);
+    data.append("user", log_user);
+    const consulta = await fetch('../src/users/send_key.php', {
+        method: 'POST',
+        body: data
+    });
+    const respuesta = await consulta.text();
+    console.log(respuesta);
+}
+
+forget.addEventListener("click", async () => {
     const log_user = document.getElementById("log_user").value;
-    if (log_user === "" ){
-        alert ("Has de introducir tu e-mail");
+    if (log_user === "") {
+        alert("Has de introducir tu e-mail");
     } else {
-        newReg();
-        forget_user("alatrizte", log_user);
+        let consulta = await check_exist(log_user);
+        // Petición al servidor para comprobar si el email existe en la base de datos.
+        if (consulta != 0) {
+            send_key(log_user, consulta);
+
+            loginForm.style.transform = "translateY(-550px)";
+            loginForm.style.opacity = "0%";
+            check.style.opacity = "100%";
+            check.style.top = "-90%";
+            const btn_envio = document.getElementById("envio");
+            const btn_cancel = document.getElementById("cancel");
+
+            btn_cancel.addEventListener("click", () => {
+                location.reload(true);
+            })
+
+            btn_envio.addEventListener("click", (e) => {
+                e.preventDefault();
+                let claveData = new FormData(check);
+                fetch('../src/users/check_key.php', {
+                    method: 'POST',
+                    body: claveData,
+                })
+                    .then(respuesta => respuesta.text())
+                    .then(data => {
+                        if (data == "ok") {
+                            check.reset();
+                            check.style.opacity = "0%";
+                            check.style.top = "-49%";
+                            regForm.style.opacity = "100%";
+                            regForm.style.top = "-64%";
+                            new_pass(consulta, log_user);
+                        } else {
+                            alert("La clave introducida es incorrecta.");
+                            console.log("Clave incorrecta");
+                        }
+                    })
+            })
+
+            //new_pass(consulta, log_user);
+        } else {
+            alert("El e-mail no está registrado.")
+        };
+
     }
 })
 

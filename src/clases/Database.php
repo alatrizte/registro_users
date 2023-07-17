@@ -57,7 +57,7 @@ class Database {
             return $consulta->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $e){
             //echo($e->errorInfo[2]);
-            return $e->errorInfo[2];
+            return "Error, ". $e->errorInfo[2];
         }
     }
 

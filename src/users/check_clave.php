@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST'){
 
         $userName = $_SESSION["userName"];
         $userMail = $_SESSION["userMail"];
-        $userPass = password_hash($_SESSION["userPass"], PASSWORD_DEFAULT);
+        $userPass = $_SESSION["userPass"];
 
         $conn->query('INSERT INTO users (user_name, user_mail, user_pass) VALUES (?, ?, ?)', [$userName, $userMail, $userPass]);
         session_destroy();

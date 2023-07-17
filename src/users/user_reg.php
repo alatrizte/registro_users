@@ -45,7 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
             $_SESSION["clave"] = $clave;
             $_SESSION["userName"] = $userName;
             $_SESSION["userMail"] = $userMail;
-            $_SESSION["userPass"] = $userPass;
+            $_SESSION["userPass"] = password_hash($userPass, PASSWORD_DEFAULT);
+            
         };
     }
 }
